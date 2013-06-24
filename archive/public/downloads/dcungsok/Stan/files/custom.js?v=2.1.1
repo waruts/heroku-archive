@@ -1,0 +1,127 @@
+// Functions.js - this file collect smaller javascript functions used within www.stanford.edu homepage files
+
+/*******************************************************************
+Expanded drawer - jQuery domready event along hide/show calls for the expanded navigation
+********************************************************************/
+
+	$(document).ready(function() { 
+		$("#expanded_content").hide().addClass("hidden");
+		$("#toggle").live("click", function(e) {
+			e.preventDefault();
+			$("#expanded_content").slideToggle();
+			if ($("#expanded_content").hasClass("hidden")) {
+				_gaq.push(['_trackEvent', 'expanded-nav', 'open']);
+				$("#expanded_content").addClass("visible").removeClass("hidden");
+				$("#toggle").html('<img id="expanded_icon" src="http://www.stanford.edu/images/icon_expanded.jpg"/> Hide Expanded Menus');
+			} else {
+				_gaq.push(['_trackEvent', 'expanded-nav', 'close']);
+				$("#expanded_content").addClass("hidden").removeClass("visible");
+				$("#toggle").html('<img id="expanded_icon" src="http://www.stanford.edu/images/icon_expanded.jpg"/> Show Expanded Menus');
+			}
+		});	
+	});
+
+
+/*******************************************************************
+Carousel Tool - jQuery Tools powered carousel	
+********************************************************************/
+
+	// Feature Banner
+	$(document).ready(function() {
+		$("#browsable").scrollable({circular:true}).navigator();
+        // Hide arrows on load
+        $('.browse').hide();
+	   	// Show/hide prev & next arrows
+		$('#feature-banner').hover(function(){
+			$('.browse').fadeIn();
+		}, function(){
+			$('.browse').fadeOut();
+		});
+	});
+
+	// At Stanford
+	        $(document).ready(function() {  
+                $(".slidetabs").tabs(".atstanford > div", { effect: 'fade', fadeOutSpeed: "slow", rotate: true }).slideshow({interval: 8000, clickable: false}); setTimeout('$(".slidetabs").data("slideshow").play();', 4000);});
+
+
+/*******************************************************************
+Social Icons - fade in and out	
+********************************************************************/
+
+	$(document).ready(function() { 	$("#social img").fadeTo("fast", 1.0); // This sets the opacity of the thumbs to fade down to 60% when the page loads
+		$("#social img").hover(function(){
+			$(this).stop().fadeTo("fast", 0.6); // This should set the opacity to 100% on hover
+		},function(){
+			$(this).stop().fadeTo("fast", 1.0); // This should set the opacity back to 60% on mouseout
+		});
+	});
+
+
+/*******************************************************************
+CEE Box - JQuery powered lightbox effect
+********************************************************************/
+$(document).ready(function(){ 
+	$(".event-box").fancybox({
+		type		: 'iframe',
+		arrows		: false,
+		keys: {
+                                next: [], // enter, space, page down, right arrow, down arrow
+                                prev: [], // backspace, page up, left arrow, up arrow
+                                close: [27] // escape key
+                        },
+	    padding		: 5,
+		width		: 610,
+		height		: 800
+	});
+	$(".lightbox").fancybox();
+	});
+
+
+/*******************************************************************
+Search Box - focus and remove guide text
+********************************************************************/
+$(document).ready(function(){
+	//global vars
+	var sb = $("#search_string");
+	var sbDefault = "Search web or people...";
+	
+	//Effects for both searchbox
+	sb.focus(function(e){
+		$(this).addClass("active");
+	});
+	sb.blur(function(e){
+		$(this).removeClass("active");
+	});
+	
+	//Searchbox2 show/hide default text if needed
+	sb.focus(function(){
+		if($(this).attr("value") == sbDefault) $(this).attr("value", "");
+	});
+	sb.blur(function(){
+		if($(this).attr("value") == "") $(this).attr("value", sbDefault);
+	});
+});
+
+
+/*******************************************************************
+Search Box - drop down for Web / People
+Uses hoverIntent r6 // 2011.02.26 // jQuery 1.5.1+ 
+<http://cherne.net/brian/resources/jquery.hoverIntent.html>
+********************************************************************/
+
+(function($){$.fn.hoverIntent=function(f,g){var cfg={sensitivity:7,interval:100,timeout:0};cfg=$.extend(cfg,g?{over:f,out:g}:f);var cX,cY,pX,pY;var track=function(ev){cX=ev.pageX;cY=ev.pageY};var compare=function(ev,ob){ob.hoverIntent_t=clearTimeout(ob.hoverIntent_t);if((Math.abs(pX-cX)+Math.abs(pY-cY))<cfg.sensitivity){$(ob).unbind("mousemove",track);ob.hoverIntent_s=1;return cfg.over.apply(ob,[ev])}else{pX=cX;pY=cY;ob.hoverIntent_t=setTimeout(function(){compare(ev,ob)},cfg.interval)}};var delay=function(ev,ob){ob.hoverIntent_t=clearTimeout(ob.hoverIntent_t);ob.hoverIntent_s=0;return cfg.out.apply(ob,[ev])};var handleHover=function(e){var ev=jQuery.extend({},e);var ob=this;if(ob.hoverIntent_t){ob.hoverIntent_t=clearTimeout(ob.hoverIntent_t)}if(e.type=="mouseenter"){pX=ev.pageX;pY=ev.pageY;$(ob).bind("mousemove",track);if(ob.hoverIntent_s!=1){ob.hoverIntent_t=setTimeout(function(){compare(ev,ob)},cfg.interval)}}else{$(ob).unbind("mousemove",track);if(ob.hoverIntent_s==1){ob.hoverIntent_t=setTimeout(function(){delay(ev,ob)},cfg.timeout)}}};return this.bind('mouseenter',handleHover).bind('mouseleave',handleHover)}})(jQuery);
+
+ $(function(){
+    var config = {  sensitivity: 3, interval: 200, over: doOpen, timeout: 1000, out: doClose   
+    };
+    
+    function doOpen() {
+        $('.sb_dropdown',this).fadeIn();
+    }
+ 
+    function doClose() {
+        $('.sb_dropdown',this).fadeOut();
+    }
+
+    $("#container_search").hoverIntent(config);
+});
