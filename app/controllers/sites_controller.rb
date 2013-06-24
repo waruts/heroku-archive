@@ -95,10 +95,10 @@ class SitesController < ApplicationController
       recursive = false
     end
     
-    @notice = "No"
-    if not system("wget", "-P", "#{files_path}", "http://www.google.com")
-      return render :action => :new
-    end
+    #@notice = "No"
+    #if not system("wget", "-P", "#{files_path}", "http://www.google.com")
+    #  return render :action => :new
+    #end
 
     @notice = "We cannot download your URL(s): #{url_array}."
 
