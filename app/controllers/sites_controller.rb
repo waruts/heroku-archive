@@ -101,6 +101,7 @@ class SitesController < ApplicationController
     #end
 
     @notice = "We cannot download your URL(s): #{url_array}."
+    @notice = files_path
 
     if different_domain
       if recursive
