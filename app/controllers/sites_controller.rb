@@ -86,7 +86,7 @@ class SitesController < ApplicationController
     url_join_comma = url_array.join(", ")
     wget_filename_join_comma = url_array.map { |url| "\\url\{#{name}/#{get_wget_filename(url)}\}" } .join(", ")
 
-    download_path = Rails.root.join('public').join('downloads')
+    download_path = Rails.root.join('tmp').join('downloads')
     base_path = download_path.join(hash_name)
     zip_path = base_path.join(name)
     files_path = zip_path.join('files')
