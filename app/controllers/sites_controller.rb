@@ -96,9 +96,9 @@ class SitesController < ApplicationController
     end
     
     #@notice = "No"
-    #if not system("wget", "-P", "#{files_path}", "http://www.google.com")
-    #  return render :action => :new
-    #end
+    output = `wget -P #{files_path} http://www.google.com`
+    @notice = output
+    return render :action => :new
 
     @notice = "We cannot download your URL(s): #{url_array}."
     @notice = files_path
