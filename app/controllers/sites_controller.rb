@@ -97,6 +97,7 @@ class SitesController < ApplicationController
     
     #@notice = "No"
     output = `wget -P #{files_path} http://www.google.com`
+    output = `ls`
     @notice = output
     return render :action => :new
 
